@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Download index.html&lt;/title&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;Download Your index.html File&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;p&gt;Click the link below to download the &lt;code&gt;index.html&lt;/code&gt; file for the Plant Green Score Prototype.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;a id="downloadLink" download="index.html" href="#"&gt;Download index.html&lt;/a&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// This is the content of the index.html file you want to download.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const fileContent = `&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Plant Green Score Prototype&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Load OpenCV.js from the official CDN --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();" type="text/javascript"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: Arial, sans-serif; margin: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>canvas { border: 1px solid #ccc; margin: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#result { margin-top: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;Plant Green Score Prototype&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>Upload three images of your plant experiment (a top‑down view and two diagonal views). <span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>Ensure that a U.S. quarter and a dime are visible (they’ll be automatically detected for scale calibration).</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- File inputs for the three images --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;label&gt;Image 1 (Top‑Down): &lt;input type="file" id="imgInput1" accept="image/*"&gt;&lt;/label&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;label&gt;Image 2 (Diagonal): &lt;input type="file" id="imgInput2" accept="image/*"&gt;&lt;/label&gt;&lt;br&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;label&gt;Image 3 (Diagonal, plant rotated 180°): &lt;input type="file" id="imgInput3" accept="image/*"&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;button id="processBtn" disabled&gt;Process Images&lt;/button&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="result"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Optional: display the images on canvases --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;canvas id="canvas1"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;canvas id="canvas2"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;canvas id="canvas3"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script type="text/javascript"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Global array to store loaded images as OpenCV Mats</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let images = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Called when OpenCV.js is fully loaded</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function onOpenCvReady() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('processBtn').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>console.log("OpenCV.js is ready.");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Helper: load an image from a file input into a canvas and then into an OpenCV Mat</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function loadImage(fileInputId, canvasId, callback) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const input = document.getElementById(fileInputId);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (input.files.length === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert("Please select an image for " + fileInputId);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const file = input.files[0];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const img = new Image();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>img.onload = function () {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const canvas = document.getElementById(canvasId);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>canvas.width = img.width;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>canvas.height = img.height;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ctx = canvas.getContext('2d');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>ctx.drawImage(img, 0, 0);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Read the image data into an OpenCV Mat</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const src = cv.imread(canvas);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>callback(src);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>img.src = URL.createObjectURL(file);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Load all three images, then process them</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function processAllImages() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>images = [];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>loadImage('imgInput1', 'canvas1', function(src1) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>images.push(src1);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>loadImage('imgInput2', 'canvas2', function(src2) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>images.push(src2);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>loadImage('imgInput3', 'canvas3', function(src3) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>images.push(src3);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>processImages();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Process the loaded images and compute a combined green score</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function processImages() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let totalGreenArea = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Process each image and sum the estimated green area (in mm²)</p>
+<p class="p1"><span class="Apple-converted-space">      </span>for (let i = 0; i &lt; images.length; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const result = processSingleImage(images[i]);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>totalGreenArea += result.greenArea;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const averageGreenArea = totalGreenArea / images.length;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const scoreDiv = document.getElementById('result');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>scoreDiv.innerHTML = "&lt;h2&gt;Green Score: " + averageGreenArea.toFixed(2) + " mm² (estimated)&lt;/h2&gt;";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Clean up: delete the Mats so memory is freed</p>
+<p class="p1"><span class="Apple-converted-space">      </span>for (let i = 0; i &lt; images.length; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>images[i].delete();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Process a single image:</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// <span class="Apple-converted-space">  </span>1. Detect circles (quarter and dime) for scale calibration.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// <span class="Apple-converted-space">  </span>2. Convert the image to HSV and threshold for green.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// <span class="Apple-converted-space">  </span>3. Count the green pixels and convert that count into area (mm²).</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function processSingleImage(src) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// ---- Step 1: Detect Reference Objects (Quarter and Dime) ----</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let gray = new cv.Mat();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Use a median blur to reduce noise (adjust kernel size as needed)</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cv.medianBlur(gray, gray, 5);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>let circles = new cv.Mat();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// HoughCircles parameters:</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// dp = 1, minDist = gray.rows/8, param1 = 100, param2 = 20, minRadius = 10, maxRadius = 0 (no max)</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cv.HoughCircles(gray, circles, cv.HOUGH_GRADIENT, 1, gray.rows/8, 100, 20, 10, 0);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Determine scale from the detected circles.</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Known diameters: quarter ~24.26 mm, dime ~17.91 mm.</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let scale = 1.0; // default scale if detection fails</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (circles.cols &gt;= 2) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Gather circles into an array for easier processing.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let circleData = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>for (let i = 0; i &lt; circles.cols; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const x = circles.data32F[i * 3];</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const y = circles.data32F[i * 3 + 1];</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const r = circles.data32F[i * 3 + 2];</p>
+<p class="p1"><span class="Apple-converted-space">          </span>circleData.push({ x: x, y: y, r: r });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Sort circles by radius (largest first)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>circleData.sort((a, b) =&gt; b.r - a.r);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Assume: largest circle is the quarter, second largest is the dime.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const quarter = circleData[0];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const dime = circleData[1];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const detectedQuarterDiameter = quarter.r * 2; // in pixels</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const detectedDimeDiameter = dime.r * 2; <span class="Apple-converted-space">      </span>// in pixels</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const scaleQuarter = 24.26 / detectedQuarterDiameter; // mm per pixel for quarter</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const scaleDime = 17.91 / detectedDimeDiameter; <span class="Apple-converted-space">      </span>// mm per pixel for dime</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Use the average scale factor.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scale = (scaleQuarter + scaleDime) / 2;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>circles.delete();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gray.delete();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// ---- Step 2: Threshold for Green Pixels ----</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let hsv = new cv.Mat();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cv.cvtColor(src, hsv, cv.COLOR_RGBA2RGB);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cv.cvtColor(hsv, hsv, cv.COLOR_RGB2HSV);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Define the HSV range for green (adjust if needed)</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let lowerGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [35, 50, 50, 0]);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let upperGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [85, 255, 255, 255]);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let mask = new cv.Mat();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cv.inRange(hsv, lowerGreen, upperGreen, mask);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// (Optional) Clean up noise with morphological operations</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let kernel = cv.Mat.ones(3, 3, cv.CV_8U);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cv.morphologyEx(mask, mask, cv.MORPH_OPEN, kernel);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>kernel.delete();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>lowerGreen.delete();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>upperGreen.delete();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>hsv.delete();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// ---- Step 3: Count Green Pixels and Calibrate ----</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const greenPixelCount = cv.countNonZero(mask);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// Convert pixel area to real area (mm²) using the scale factor:</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// (mm per pixel)² * (number of pixels) = area in mm².</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const greenAreaMM2 = greenPixelCount * (scale * scale);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>mask.delete();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>return { greenArea: greenAreaMM2 };</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Attach event listener to the process button.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('processBtn').addEventListener('click', processAllImages);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Create a Blob from the file content and generate a URL for it.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const blob = new Blob([fileContent], { type: 'text/html' });</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const url = URL.createObjectURL(blob);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('downloadLink').href = url;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
